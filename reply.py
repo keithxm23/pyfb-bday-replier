@@ -15,20 +15,26 @@ from utils import already_replied, pretty_date
 if __name__ == '__main__':
   
   #bday = '22/10/2013' # For good measure, enter a day before your actual birthdate this year in DD/MM/YYYY
-  bday = '24/09/2013'
+  bday = '24/08/2013'
   unix_bday = str(timegm(datetime.datetime.strptime(bday, "%d/%m/%Y").utctimetuple()))
 
-  oauth_access_token =  ''
+  oauth_access_token =  'CAACEdEose0cBAIL5dF68OkzuDJkOgWHIozxGvfmZBf9oWn2wK3qKGM8KfBy3CpZCAY9ujpoBogHmQjZA65FSfrGi701RiEu0E5bZBa0YsblnU9GPe387QFoKvweDYXuyu80jVCOXFgZC2Gzwe6RNquO6bZAVgOnyRZCJseznMvxurcZAs3ILNxtTESttOUFPplZC3STfh00S6cwZDZD'
   graph = facebook.GraphAPI(oauth_access_token)
   profile = graph.get_object("me")
-  post_ids = graph.fql("SELECT post_id, actor_id FROM stream WHERE source_id = me() AND created_time > " +unix_bday+ " LIMIT 500")
+  post_ids = graph.fql("SELECT post_id FROM stream WHERE source_id = me() AND created_time > " +unix_bday+ " LIMIT 500")
   posts = graph.get_objects([x['post_id'] for x in post_ids])
-
+  
+  
+  #TODO First filter out posts by self either by filter() or using filter_key in fql
   ordered_posts = sorted(posts.items(), key = lambda x :x[1]['created_time'], reverse=True)
   replies = [] # List that will hold replies in tuples as (<post_id>, <message>)
   for p in dict(ordered_posts):
     if profile['name'] != posts[p]['from']['name'] and not already_replied(profile['name'], posts[p]):
+      if 'message' not in posts[p].keys():
+        print posts[p]['from']['name'] +" posted a message on your wall with no text. Maybe it's a pic/video/link. You should probably have a look at this message and reply manually"
+        continue
       print posts[p]['from']['name'] +' wrote on your wall: '# #TODO at '+pretty_date(parse(posts[p]['created_time']))+' :'
+
       print "\t"+posts[p]['message']
       reply = raw_input('Type your reply and hit enter: ')
       replies.append((p,reply,posts[p]['from']['name']))
