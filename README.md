@@ -7,11 +7,12 @@ You only need to feed the 2 following values in the python script
 - ```bday``` [with your birthday in DD/MM/YYYY format]
 - ```oauth_access_token``` [with your Facebook Graph API access token* with read_stream, publish_actions permissions]
 
+*You can get an access token by visiting https://developers.facebook.com/tools/explorer and hitting Get Access token. Make sure to select the read_stream[Extended Permission] and publish_actions[User Data Permission] permissions.
+
+
 Also make sure you have pip installed the following python packages:
 - facebook-sdk
 - requests
 
 And then run the script:
 - ```$: python reply.py```
-*You can get an access token by visiting https://developers.facebook.com/tools/explorer and hitting Get Access token. Make sure to select the read_stream[Extended Permission] and publish_actions[User Data Permission] permissions.
-
