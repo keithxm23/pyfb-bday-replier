@@ -18,7 +18,7 @@ if __name__ == '__main__':
   bday = '24/08/2013'
   unix_bday = str(timegm(datetime.datetime.strptime(bday, "%d/%m/%Y").utctimetuple()))
 
-  oauth_access_token =  'CAACEdEose0cBAIL5dF68OkzuDJkOgWHIozxGvfmZBf9oWn2wK3qKGM8KfBy3CpZCAY9ujpoBogHmQjZA65FSfrGi701RiEu0E5bZBa0YsblnU9GPe387QFoKvweDYXuyu80jVCOXFgZC2Gzwe6RNquO6bZAVgOnyRZCJseznMvxurcZAs3ILNxtTESttOUFPplZC3STfh00S6cwZDZD'
+  oauth_access_token =  ''
   graph = facebook.GraphAPI(oauth_access_token)
   profile = graph.get_object("me")
   post_ids = graph.fql("SELECT post_id FROM stream WHERE source_id = me() AND created_time > " +unix_bday+ " LIMIT 500")
